@@ -1,0 +1,33 @@
+<!-- Aqui se tiver,  !taskList.length, isso ! siginifica false, se tiver false faça o loading  -->
+<section [ngClass]="{ loading: !taskList.length }">
+  <!-- Desta forma, ngIf, se meu tasList, não tiver nada, minha lista não ira aparecer -->
+
+  <ul *ngIf="taskList.length">
+    <!-- Se tiver com valor adicionar a lista -->
+
+    <li *ngFor="let item of taskList; let i = index">
+      <!-- Este i, vamos utilizar ele quando fomos deletar -->
+
+      <input type="checkbox" [(ngModel)]="item.checked" />
+      <input
+        type="text"
+        (keyup)="validationInput(item.task, i)"
+        [(ngModel)]="item.task"
+        [ngClass]="{ checked: item.checked }"
+      />
+
+      <button (click)="deleteItemTaskList(i)">
+        <img src="assets/icons/icon-trash.svg" alt="" />
+      </button>
+      <!-- Teste -->
+      <!-- {{ item | json }} -->
+    </li>
+  </ul>
+</section>
+<!-- setEmitTaskList, recupera os dados -->
+<app-todo-input-add-itens (emitItemTaskList)="setEmitTaskList($event)">
+</app-todo-input-add-itens>
+<app-todo-button-delete-all
+  *ngIf="taskList.length"
+  (click)="deleteAllTaskList()"
+></app-todo-button-delete-all>
